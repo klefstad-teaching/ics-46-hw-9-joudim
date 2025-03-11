@@ -101,6 +101,8 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
             }
         }
 
+        sort(neighbors.begin(), neighbors.end());
+
         for (const string& neighbor : neighbors){
             if (visited.find(neighbor) == visited.end() && word_list.find(neighbor) != word_list.end()) {
                 visited.insert(neighbor);
