@@ -31,7 +31,6 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
 bool is_adjacent(const string& word1, const string& word2){
     if (word1 == word2){
         error(word1, word2, "Start and end words must be different.");
-        return {};
     }
     
    string w1 = word1;

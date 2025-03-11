@@ -18,7 +18,7 @@ int main() {
 
     if (start_word == end_word){
         error(start_word, end_word, "Start and end words must be different.");
-        return 1;
+        return 0;
     }
 
     vector<string> ladder = generate_word_ladder(start_word, end_word, word_list);
