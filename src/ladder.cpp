@@ -31,6 +31,7 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
 bool is_adjacent(const string& word1, const string& word2){
     if (word1 == word2){
         error(word1, word2, "Start and end words must be different.");
+        
     }
     
    string w1 = word1;
@@ -73,12 +74,39 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         ladder_queue.pop();
         string last_word = ladder.back();
         
-        for (const string& word : word_list){
-            if (visited.find(word) == visited.end() && is_adjacent(last_word, word)){
-                visited.insert(word);
+        vector<string> neighbors;
+
+        //Substitution
+        for (size_t i = 0; i < last_word.size(); i++){
+            char original = last_word[i];
+            for (char c = 'a'; c <= 'z'; c++){
+                if (c == original) continue;
+                string neighbor = last_word;
+                neighbor[i] = c;
+                neighbors.push_back(neighbor);
+            }
+        }
+
+        //Deletion
+        for (size_t i = 0; i < last_word.size(); i++){
+            string neighbor = last_word.substr(0, i) + last_word.substr(i + 1);
+            neighbors.push_back(neighbor);
+        }
+
+        //Insertion
+        for (size_t i = 0; i <= last_word.size(); i++){
+            for (char c = 'a'; c <= 'z'; c++){
+                string neighbor = last_word.substr(0, i) + c + last_word.substr(i);
+                neighbors.push_back(neighbor);
+            }
+        }
+
+        for (const string& neighbor : neighbors){
+            if (visited.find(neighbor) == visited.end() && word_list.find(neighbor) != word_list.end()) {
+                visited.insert(neighbor);
                 vector<string> new_ladder = ladder;
-                new_ladder.push_back(word);
-                if (word == end) {
+                new_ladder.push_back(neighbor);
+                if (neighbor == end) {
                     return new_ladder;
                 }
                 ladder_queue.push(new_ladder);
